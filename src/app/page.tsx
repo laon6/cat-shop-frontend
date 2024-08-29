@@ -1,19 +1,10 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from "next/image"
+import Link from "next/link"
 import HomeCatImage from "../../public/images/homeCatImage.png"
 import CategoryCatImage from "../../public/images/categoryCatImage.png"
 import PopularCatImage from "../../public/images/popularCatImage.png"
-
-async function getCategoriesData() {
-  if (process.env.API_GET_CATEGORY) {
-    const getCategory: string = process.env.API_GET_CATEGORY;
-    const res = await fetch(getCategory);
-    if (!res.ok) {
-      throw new Error('Failed to fetch data')
-    }
-    return res.json()
-  }
-}
+import { Category } from "../entities/category"
+import getCategoriesData from "../services/api"
 
 export default async function Home() {
   const categories = await getCategoriesData()
@@ -24,7 +15,7 @@ export default async function Home() {
         <Image src={HomeCatImage} alt="HomeCatImage" className="w-full h-full object-cover" />
       </div>
       <div className="flex gap-4 py-8">
-        {categories.map((category: any) => (
+        {categories.map((category: Category) => (
           <div key={category.id} className="flex flex-col items-center border border-gray-300 rounded-md p-4 shadow">
             <Link href="/">{category.name}</Link>
             <Image src={CategoryCatImage} alt="CategoryCatImage" />
